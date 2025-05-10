@@ -1,0 +1,220 @@
+/* Enhanced NavBar Styles with Animations */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right, #1e3a8a, #6b21a8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: all 0.4s ease-in-out;
+}
+
+/* Gold accent line at top */
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #ef4444, #0800ff, #ef4444);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s ease-out;
+}
+
+.navbar:hover::before {
+  transform: scaleX(1);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.05rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-title {
+  position: relative;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #d4af37;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.05em;
+  display: inline-block;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+/* Logo glow effect on hover */
+.navbar-title:hover {
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.7), 0 0 20px rgba(212, 175, 55, 0.5);
+  transform: scale(1.05);
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-link {
+  position: relative;
+  color: #e5e7eb;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  overflow: hidden;
+}
+
+/* Main color change on hover */
+.navbar-link:hover {
+  color: #44ef4f;
+}
+
+/* Animated underline effect */
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #44ef4f;
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.navbar-link:hover::after {
+  transform: translateX(0);
+}
+
+/* Unique slide-in effect for each link (staggered) */
+.navbar-links a:nth-child(1) { animation: fadeSlideIn 0.5s ease-out 0.1s both; }
+.navbar-links a:nth-child(2) { animation: fadeSlideIn 0.5s ease-out 0.2s both; }
+.navbar-links a:nth-child(3) { animation: fadeSlideIn 0.5s ease-out 0.3s both; }
+.navbar-links a:nth-child(4) { animation: fadeSlideIn 0.5s ease-out 0.4s both; }
+.navbar-links a:nth-child(5) { animation: fadeSlideIn 0.5s ease-out 0.5s both; }
+.navbar-links a:nth-child(6) { animation: fadeSlideIn 0.5s ease-out 0.6s both; }
+.navbar-links a:nth-child(7) { animation: fadeSlideIn 0.5s ease-out 0.7s both; }
+
+/* Active link styling */
+.navbar-link.active {
+  color: #44ef4f;
+  font-weight: 600;
+}
+
+.navbar-link.active::after {
+  transform: translateX(0);
+  background-color: #44ef4f;
+  height: 3px;
+}
+
+/* Animation for entry */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll effect - navbar shrinks when scrolling down */
+.navbar-scrolled {
+  padding: 0.5rem 0;
+  background: rgba(30, 58, 138, 0.95);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Floating effect on navbar */
+@keyframes floatAnimation {
+  0% {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(0px);
+  }
+  50% {
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+  100% {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(0px);
+  }
+}
+
+/* Apply subtle floating animation to navbar on hover */
+.navbar:hover {
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+
+/* Pulse animation for the title */
+@keyframes titlePulse {
+  0% { opacity: 0.9; }
+  50% { opacity: 1; }
+  100% { opacity: 0.9; }
+}
+
+.navbar-title {
+  animation: titlePulse 3s infinite ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    gap: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-title {
+    padding-right: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .navbar-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Mobile menu appearance animation */
+  .navbar-links {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);
+  }
+  
+  .navbar-expanded .navbar-links {
+    max-height: 300px;
+    opacity: 1;
+  }
+  
+  /* Make links more touchable on mobile */
+  .navbar-link {
+    padding: 0.75rem 1rem;
+    width: 100%;
+    text-align: center;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  
+  .navbar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+}

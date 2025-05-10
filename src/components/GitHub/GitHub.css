@@ -1,0 +1,39 @@
+.github {
+  padding: 5rem 1rem;
+  background: linear-gradient(to bottom, #111827, #000000);
+  text-align: center;
+}
+
+.github-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.github-title {
+  font-size: 2.5rem;
+  color: #d4af37;
+  margin-bottom: 1.5rem;
+}
+
+.github-text {
+  color: #e5e7eb;
+  margin-bottom: 1.5rem;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  background: #a855f7;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.github-link:hover {
+  background: #d4af37;
+}
+
+.github-icon {
+  margin-right: 0.5rem;
+}
