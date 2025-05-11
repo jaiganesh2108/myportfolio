@@ -1,13 +1,15 @@
-/* Section styling */
+/* Education.css - Dark Theme */
+
 .education {
   padding: 5rem 1rem;
-  background: linear-gradient(to bottom, #111827, #000000);
+  background: linear-gradient(to bottom, #0a0f1c, #030712);
   position: relative;
   overflow: hidden;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
 }
 
 /* Decorative elements */
@@ -19,73 +21,65 @@
   bottom: 0;
   z-index: 0;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .decorative-circle1 {
   position: absolute;
-  z-index: -10;
-  width: 16rem;
-  height: 16rem;
-  top: 15%;
-  left: 10%;
+  z-index: -1;
+  width: 500px;
+  height: 500px;
+  bottom: -100px;
+  right: -100px;
   border-radius: 50%;
-  border: 2px solid rgba(59, 130, 246, 0.6);
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
-  animation: revolve 24s ease-in-out infinite;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 
+    0 0 80px rgba(59, 130, 246, 0.3),
+    inset 0 0 40px rgba(59, 130, 246, 0.2);
+  animation: revolve 25s linear infinite;
 }
 
 .decorative-circle2 {
   position: absolute;
-  z-index: -10;
-  width: 14rem;
-  height: 14rem;
-  bottom: 20%;
-  right: 12%;
+  z-index: -1;
+  width: 450px;
+  height: 450px;
+  top: -100px;
+  left: -100px;
   border-radius: 50%;
-  border: 2px solid rgba(168, 85, 247, 0.5);
-  box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
-  animation: revolveReverse 18s ease-in-out infinite;
-}
-
-/* Floating particles */
-.decorative-elements::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="1" fill="rgba(59, 130, 246, 0.3)"/></svg>') repeat;
-  animation: particleFloat 20s linear infinite;
-  opacity: 0.3;
+  border: 2px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 
+    0 0 80px rgba(168, 85, 247, 0.3),
+    inset 0 0 40px rgba(168, 85, 247, 0.2);
+  animation: revolveReverse 20s linear infinite;
 }
 
 /* Container */
 .education-container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
 }
 
-/* Header section */
+/* Header styling */
 .header-section {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
 .header-line {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
   gap: 1rem;
 }
 
 .line-decoration {
   height: 1px;
-  width: 4rem;
+  width: 80px;
   background: linear-gradient(to right, #3b82f6, #a855f7);
   position: relative;
 }
@@ -97,6 +91,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
 }
 
 .line-decoration.left::after {
@@ -113,7 +108,7 @@
 
 .header-subtitle {
   color: #9ca3af;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   font-size: 0.875rem;
   font-weight: 500;
@@ -123,12 +118,13 @@
   font-size: 3rem;
   color: #ffffff;
   text-align: center;
+  margin-bottom: 1rem;
   font-weight: 700;
   position: relative;
 }
 
 .title-gradient {
-  background: linear-gradient(to right, #60a5fa, #a855f7, #2dd4bf);
+  background: linear-gradient(to right, #60a5fa, #a855f7);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -139,72 +135,48 @@
 .title-gradient::after {
   content: '';
   position: absolute;
-  bottom: -5px;
-  left: 25%;
-  width: 50%;
+  bottom: -15px;
+  left: 0;
+  width: 100%;
   height: 2px;
-  background: linear-gradient(to right, #60a5fa, #a855f7, #2dd4bf);
+  background: linear-gradient(to right, #60a5fa, #a855f7);
   border-radius: 2px;
-  animation: glowPulse 2s ease-in-out infinite;
 }
 
-/* Timeline connector */
+/* Timeline and cards */
 .education-timeline {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
 }
 
 .timeline-connector {
-  position: relative;
-  height: 4rem;
   width: 2px;
+  height: 80px;
   background: linear-gradient(to bottom, #3b82f6, #a855f7);
   margin: 0 auto;
-  animation: gradientFlow 8s ease infinite;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
 }
 
-.timeline-connector::before,
-.timeline-connector::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.timeline-connector::before {
-  top: -6px;
-  background: #3b82f6;
-  box-shadow: 0 0 15px #3b82f6;
-}
-
-.timeline-connector::after {
-  bottom: -6px;
-  background: #a855f7;
-  box-shadow: 0 0 15px #a855f7;
-}
-
-/* Education Card */
 .education-card {
   position: relative;
+  border-radius: 16px;
   background: rgba(17, 24, 39, 0.7);
   backdrop-filter: blur(8px);
-  border-radius: 16px;
   overflow: hidden;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .education-card:hover {
-  transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Color variations for cards */
 .blue-card {
   border: 1px solid rgba(59, 130, 246, 0.3);
   box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
@@ -213,22 +185,6 @@
 .purple-card {
   border: 1px solid rgba(168, 85, 247, 0.3);
   box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
-}
-
-.teal-card {
-  border: 1px solid rgba(20, 184, 166, 0.3);
-  box-shadow: 0 10px 30px rgba(20, 184, 166, 0.15);
-}
-
-.amber-card {
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
-}
-
-.education-content {
-  padding: 2rem;
-  position: relative;
-  z-index: 2;
 }
 
 .card-glow {
@@ -242,7 +198,10 @@
   z-index: 0;
 }
 
-/* Card glow variations */
+.education-card:hover .card-glow {
+  opacity: 0.4;
+}
+
 .blue-glow {
   background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.4), transparent 70%);
 }
@@ -251,37 +210,30 @@
   background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.4), transparent 70%);
 }
 
-.teal-glow {
-  background: radial-gradient(circle at top right, rgba(20, 184, 166, 0.4), transparent 70%);
-}
-
-.amber-glow {
-  background: radial-gradient(circle at top right, rgba(245, 158, 11, 0.4), transparent 70%);
-}
-
-.education-card:hover .card-glow {
-  opacity: 0.4;
-}
-
-/* Education Image */
-.education-image-container {
-  height: 200px;
-  overflow: hidden;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
+/* Card content */
+.education-content {
+  padding: 2rem;
   position: relative;
-  transition: box-shadow 0.3s ease;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.education-image-container:hover {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+.education-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
 }
 
 .education-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s;
 }
 
 .education-card:hover .education-image {
@@ -292,23 +244,20 @@
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.7));
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
 }
 
-/* Education Year Badge */
 .education-year {
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.25rem 0.75rem;
-  border-radius: 50px;
   display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  font-weight: 600;
   margin-bottom: 1rem;
-  transition: transform 0.3s ease;
+  color: white;
 }
 
-/* Tag variations */
 .blue-tag {
   background: rgba(59, 130, 246, 0.15);
   border: 1px solid rgba(59, 130, 246, 0.3);
@@ -321,33 +270,12 @@
   color: #d8b4fe;
 }
 
-.teal-tag {
-  background: rgba(20, 184, 166, 0.15);
-  border: 1px solid rgba(20, 184, 166, 0.3);
-  color: #99f6e4;
-}
-
-.amber-tag {
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  color: #fcd34d;
-}
-
-.education-year:hover {
-  transform: scale(1.1);
-}
-
-/* Education Degree */
 .education-degree {
   font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  line-height: 1.3;
-  position: relative;
-  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
-/* Gradient text variations */
 .blue-gradient {
   background: linear-gradient(to right, #3b82f6, #60a5fa);
   -webkit-background-clip: text;
@@ -362,99 +290,69 @@
   color: transparent;
 }
 
-.teal-gradient {
-  background: linear-gradient(to right, #14b8a6, #2dd4bf);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.amber-gradient {
-  background: linear-gradient(to right, #f59e0b, #fbbf24);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* School Information */
 .education-school {
   display: flex;
   justify-content: space-between;
-  font-size: 1rem;
-  color: #d1d5db;
+  color: #94a3b8;
   margin-bottom: 1.5rem;
+  font-size: 1rem;
 }
 
 .school-name {
   font-weight: 600;
+  color: #cbd5e1;
 }
 
 .school-location {
-  color: #9ca3af;
   font-style: italic;
 }
 
-/* Education Details */
 .education-details {
   margin-bottom: 1.5rem;
 }
 
 .coursework-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #d1d5db;
   margin-bottom: 0.75rem;
-  position: relative;
-}
-
-.coursework-title::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 30%;
-  height: 1px;
-  background: linear-gradient(to right, #60a5fa, #a855f7);
+  font-size: 1.1rem;
+  color: #cbd5e1;
 }
 
 .coursework-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .course-tag {
-  font-size: 0.8rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: #d1d5db;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 0.4rem 0.8rem;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
 }
 
-.course-tag:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+.blue-card .course-tag {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
 }
 
-/* Education Achievements */
+.purple-card .course-tag {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  color: #d8b4fe;
+}
+
 .education-achievements {
-  color: #9ca3af;
-  line-height: 1.6;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
 }
 
 .education-achievements p {
-  margin-bottom: 0.25rem;
-  position: relative;
-  padding-left: 1.5rem;
-}
-
-.education-achievements p::before {
-  content: '•';
-  position: absolute;
-  left: 0;
-  color: #60a5fa;
-  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: #94a3b8;
 }
 
 /* Animation classes */
@@ -464,7 +362,7 @@
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.education-in-view {
+.in-view {
   opacity: 1;
   transform: translateY(0);
 }
@@ -474,38 +372,9 @@
   .education {
     padding: 3rem 1rem;
   }
-
+  
   .education-title {
     font-size: 2.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .education-degree {
-    font-size: 1.35rem;
-  }
-  
-  .decorative-circle1,
-  .decorative-circle2 {
-    width: 10rem;
-    height: 10rem;
-  }
-  
-  .education-image-container {
-    height: 180px;
-  }
-}
-
-@media (max-width: 480px) {
-  .education-title {
-    font-size: 2rem;
-  }
-
-  .education-content {
-    padding: 1.5rem;
-  }
-
-  .education-degree {
-    font-size: 1.25rem;
   }
   
   .education-school {
@@ -513,73 +382,52 @@
     gap: 0.25rem;
   }
   
-  .decorative-circle1,
-  .decorative-circle2 {
-    width: 8rem;
-    height: 8rem;
-  }
-  
   .education-image-container {
     height: 150px;
+  }
+  
+  .decorative-circle1,
+  .decorative-circle2 {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .education-title {
+    font-size: 2rem;
+  }
+  
+  .education-content {
+    padding: 1.5rem;
+  }
+  
+  .education-degree {
+    font-size: 1.25rem;
+  }
+  
+  .decorative-circle1,
+  .decorative-circle2 {
+    width: 200px;
+    height: 200px;
   }
 }
 
 /* Animations */
 @keyframes revolve {
   0% {
-    transform: rotate(0deg) scale(1);
-    opacity: 0.6;
-    border-color: rgba(59, 130, 246, 0.6);
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.15);
-    opacity: 0.9;
-    border-color: rgba(59, 130, 246, 0.9);
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.7);
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotate(360deg) scale(1);
-    opacity: 0.6;
-    border-color: rgba(59, 130, 246, 0.6);
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    transform: rotate(360deg);
   }
 }
 
 @keyframes revolveReverse {
   0% {
-    transform: rotate(0deg) scale(1);
-    opacity: 0.5;
-    border-color: rgba(168, 85, 247, 0.5);
-    box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
-  }
-  50% {
-    transform: rotate(-180deg) scale(1.1);
-    opacity: 0.8;
-    border-color: rgba(168, 85, 247, 0.8);
-    box-shadow: 0 0 35px rgba(168, 85, 247, 0.6);
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotate(-360deg) scale(1);
-    opacity: 0.5;
-    border-color: rgba(168, 85, 247, 0.5);
-    box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+    transform: rotate(-360deg);
   }
-}
-
-@keyframes particleFloat {
-  0% { background-position: 0 0; }
-  100% { background-position: 80px 80px; }
-}
-
-@keyframes glowPulse {
-  0% { box-shadow: 0 0 5px rgba(96, 165, 250, 0.5); }
-  50% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.8); }
-  100% { box-shadow: 0 0 5px rgba(96, 165, 250, 0.5); }
-}
-
-@keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 500% 50%; }
-  100% { background-position: 0% 50%; }
 }
