@@ -32,26 +32,26 @@ const Education = () => {
                 />
                 <div className="education-image-overlay"></div>
               </div>
-              <span className="education-year blue-tag">2020 - 2024</span>
-              <h3 className="education-degree blue-gradient">B.S. in Computer Science</h3>
+              <span className="education-year blue-tag">2016 - 2023</span>
+              <h3 className="education-degree blue-gradient">Schooling</h3>
               <p className="education-school">
-                <span className="school-name">XYZ University</span>
-                <span className="school-location">San Francisco, CA</span>
+                <span className="school-name">St Johns Matriculation School Thiruninravur</span>
+                <span className="school-location">Thirunindravur, Chennai</span>
               </p>
               <div className="education-details">
                 <h4 className="coursework-title">Key Coursework:</h4>
                 <div className="coursework-tags">
-                  <span className="course-tag">Data Structures</span>
-                  <span className="course-tag">Algorithms</span>
-                  <span className="course-tag">Web Development</span>
-                  <span className="course-tag">Machine Learning</span>
-                  <span className="course-tag">Database Systems</span>
+                  <span className="course-tag">Python</span>
+                  <span className="course-tag">C++</span>
+                  <span className="course-tag">HTML</span>
+                  <span className="course-tag">Computer Basics</span>
+                  <span className="course-tag">Advanced Mathematics</span>
                 </div>
               </div>
               <div className="education-achievements">
-                <p>• Graduated with Honors (GPA: 3.8/4.0)</p>
-                <p>• President of Computer Science Club</p>
-                <p>• Published research paper on AI applications</p>
+                <p>• Graduated with Honors (80%)</p>
+                <p>• Passionate About Computer Science & Innovation </p>
+                <p>• Build Some Beginner-Level Projects</p>
               </div>
             </div>
           </div>

@@ -1,5 +1,9 @@
 import { useEffect, useRef } from 'react';
 import './Achievements.css';
+import hackathonImage from './assets/hackathon2024.jpg';
+import codefestImage from './assets/codeathon2025.jpg';
+import atriaImage from './assets/atria.jpg';
+
 
 const Achievements = () => {
   const sectionRef = useRef(null);
@@ -27,26 +31,26 @@ const Achievements = () => {
 
   const achievements = [
     {
-      title: '1st Place at TechCrunch Hackathon 2024',
-      description: 'Created an AI-powered solution that revolutionizes how developers document their code, winning the grand prize among 120+ teams.',
-      image: '/api/placeholder/800/450',
-      date: 'June 2024',
-      badge: 'Gold Award'
+      title: '🚀 Smart India Hackathon 2024 Finalist',
+      description: "As a finalist in India's premier national innovation competition, our team was selected among the top innovators to solve SIH1748, a challenge presented by the National Critical Information Infrastructure Protection Center  (NCIIPC).",
+      image: hackathonImage, // Use imported image
+      date: 'December 2024',
+      badge: 'Finalist',
     },
     {
-      title: 'Best UI/UX Award at CodeFest 2023',
-      description: 'Developed an intuitive and accessible interface for a healthcare application that stood out for its innovation and user-centered design.',
-      image: '/api/placeholder/800/450',
-      date: 'October 2023',
-      badge: 'UI/UX Award'
+      title: '🏆 Codeathon – Special Prize Winner',
+      description: 'Recognized with a Special Prize for innovative problem-solving and technical excellence in a 24-hour Codeathon. Competed among top developers and presented a solution focused on practical implementation, scalability, and user-centric design.',
+      image: codefestImage, // Use imported image
+      date: 'March 2025',
+      badge: 'Winner',
     },
     {
-      title: 'Published Open-Source Library on npm',
-      description: 'Released a React component library with over 2,000 stars on GitHub and 50,000+ weekly downloads, contributing to the developer community.',
-      image: '/api/placeholder/800/450',
-      date: 'January 2023',
-      badge: 'Open Source'
-    }
+      title: 'Web3 Hackathon Experience',
+      description: 'With a strong passion for innovation and problem-solving, I’ve participated in several hackathons, gaining hands-on experience in rapid prototyping, cross-functional collaboration, and real-world problem-solving under pressure.',
+      image: atriaImage, // Use imported image
+      date: '2024 - 2025',
+      badge: 'participated',
+    },
   ];
 
   return (

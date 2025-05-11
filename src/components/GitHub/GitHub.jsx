@@ -69,7 +69,7 @@ const GitHub = () => {
           <div className="stats-card animate-on-scroll">
             <div className="card-glow"></div>
             <img
-              src="https://github-readme-stats.vercel.app/api/top-langs?username=jaiganesh2108&show_icons=true&locale=en&layout=compact&theme=radical&hide_border=true&bg_color=0d1117&title_color=A855F7&text_color=ffffff"
+              src="https://github-readme-stats.vercel.app/api/top-langs?username=jaiganesh2108&show_icons=true&locale=en&layout=compact&theme=midnight-purple&hide_border=true&bg_color=0d1117&title_color=00C4B4&text_color=ffffff"
               alt="Top Languages"
               className="stats-image"
               loading="lazy"
