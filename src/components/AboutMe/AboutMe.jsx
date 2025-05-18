@@ -14,7 +14,6 @@ const AboutMe = () => {
     "Blockchain",
     "AI & Machine Learning",
     "UI/UX Design",
-    "Cloud Computing"
   ];
 
   // Typing animation effect

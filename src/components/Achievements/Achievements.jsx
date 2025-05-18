@@ -32,7 +32,7 @@ const Achievements = () => {
   const achievements = [
     {
       title: '🚀 Smart India Hackathon 2024 Finalist',
-      description: "As a finalist in India's premier national innovation competition, our team was selected among the top innovators to solve SIH1748, a challenge presented by the National Critical Information Infrastructure Protection Center  (NCIIPC).",
+      description: "As a finalist in India's premier national innovation competition, our team was selected among the top innovators to solve SIH1748, a challenge presented by the National Critical Information Infrastructure Protection Center  (NCIIPC) at IIT jammu.",
       image: hackathonImage, // Use imported image
       date: 'December 2024',
       badge: 'Finalist',

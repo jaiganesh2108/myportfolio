@@ -29,7 +29,7 @@ const Projects = () => {
     { 
       title: 'E-Commerce Platform', 
       desc: 'A full-stack e-commerce solution with user authentication, product management, and secure payment integration.',
-      tech: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      tech: ['React', 'Django', 'MongoDB'],
       category: 'Web App',
       color: 'blue',
       link: '#'
@@ -37,7 +37,7 @@ const Projects = () => {
     { 
       title: 'Task Management System', 
       desc: 'Real-time collaboration app with task assignment, progress tracking, and team communication features.',
-      tech: ['Firebase', 'React', 'Material UI', 'Redux'],
+      tech: ['Firebase', 'Fuutter', 'Material UI'],
       category: 'Productivity',
       color: 'purple',
       link: '#'
@@ -51,9 +51,9 @@ const Projects = () => {
       link: '#'
     },
     { 
-      title: 'Crypto Price Tracker', 
-      desc: 'Real-time cryptocurrency market data visualization with historical price charts and personalized watchlists.',
-      tech: ['React', 'Chart.js', 'CoinGecko API', 'TailwindCSS'],
+      title: 'AI Market Place', 
+      desc: 'Real-time cryptocurrency market data visualization with historical price charts AI models and personalized watchlists.',
+      tech: ['React', 'Chart.js', 'CoinGecko API', 'Python'],
       category: 'Finance',
       color: 'amber',
       link: '#'

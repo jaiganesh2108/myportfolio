@@ -69,25 +69,25 @@ const Education = () => {
                 />
                 <div className="education-image-overlay"></div>
               </div>
-              <span className="education-year purple-tag">2016 - 2020</span>
-              <h3 className="education-degree purple-gradient">High School Diploma</h3>
+              <span className="education-year purple-tag">2023 - 2027</span>
+              <h3 className="education-degree purple-gradient">Compter Science Engineering</h3>
               <p className="education-school">
-                <span className="school-name">ABC High School</span>
-                <span className="school-location">Los Angeles, CA</span>
+                <span className="school-name">Jaya Engineering College</span>
+                <span className="school-location">Thiruninravur, Chennai</span>
               </p>
               <div className="education-details">
                 <h4 className="coursework-title">Focus Areas:</h4>
                 <div className="coursework-tags">
-                  <span className="course-tag">Advanced Mathematics</span>
                   <span className="course-tag">Computer Programming</span>
-                  <span className="course-tag">Physics</span>
-                  <span className="course-tag">Robotics</span>
+                  <span className="course-tag">Full-Stack development</span>
+                  <span className="course-tag">Flutter App Development</span>
+                  <span className="course-tag">Blockchain & Smart Contracts</span>
                 </div>
               </div>
               <div className="education-achievements">
-                <p>• Valedictorian</p>
-                <p>• Science Olympiad State Finalist</p>
-                <p>• Advanced Placement Scholar with Distinction</p>
+                <p>• Prticipated in Hackathons</p>
+                <p>• SIH 2024 Finalist</p>
+                <p>• Building AI Models </p>
               </div>
             </div>
           </div>
