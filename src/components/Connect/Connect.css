@@ -270,17 +270,24 @@
 .connect-links {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap; /* ✅ enables wrapping */
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 0 1rem;
 }
 
 .connect-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   background: linear-gradient(to right, var(--purple), var(--blue));
   color: #fff;
-  padding: 0.75rem;
-  border-radius: 8px;
+  padding: 0.6rem;
+  border-radius: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 3.2rem;
+  height: 3.2rem;
 }
 
 .connect-link:hover {
@@ -289,7 +296,7 @@
 }
 
 .connect-icon {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 
 /* Animation classes */
@@ -398,6 +405,24 @@
   .decorative-circle3 {
     width: 8rem;
     height: 8rem;
+  }
+}
+
+/* Extra responsiveness */
+@media (max-width: 480px) {
+  .connect-links {
+    gap: 0.8rem;
+    padding: 0 0.5rem;
+  }
+
+  .connect-link {
+    width: 2.8rem;
+    height: 2.8rem;
+    padding: 0.5rem;
+  }
+
+  .connect-icon {
+    font-size: 1.4rem;
   }
 }
 
