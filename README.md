@@ -49,3 +49,6 @@ Clone the repo:
 ```bash
 git clone https://github.com/jaiganesh2108/portfolio.git
 cd portfolio
+```
+
+<h1 align="center"> Thank you!</h1>
