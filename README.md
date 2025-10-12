@@ -1,12 +1,54 @@
-# React + Vite
+# 🚀 Jai Ganesh H — Portfolio  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my **Portfolio Repository**! 🎉  
+This repository contains my personal portfolio website showcasing my skills, projects, and achievements.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📌 About Me  
+I'm **Jai Ganesh H**, a passionate developer who loves solving real-world problems using technology.  
 
-## Expanding the ESLint configuration
+- 🌐 Full-Stack Web & Mobile Developer  
+- 🤖 AI/ML Enthusiast  
+- 🔗 Blockchain Explorer  
+- 🎯 Hackathon Finalist & Open-Source Contributor  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🖥️ Tech Stack  
+Here are the technologies I use to build my projects:  
+
+- **Frontend:** React.js, Vite.js, Tailwind CSS, Flutter  
+- **Backend:** Node.js, Express.js, Python (FastAPI, Flask)  
+- **Database:** MongoDB, Firebase, PostgreSQL  
+- **Other:** Web3.js, Solidity, GitHub, Docker  
+
+---
+
+## 📂 Portfolio Features  
+✅ Modern & responsive design  
+✅ Smooth animations with Framer Motion  
+✅ Showcases my **projects, skills, and achievements**  
+✅ Contact section to connect easily  
+
+---
+
+## ⚡ Projects Included  
+Some of the highlighted projects in my portfolio:  
+
+- 🔹 **Decentralized AI Model Marketplace** — AI models as NFTs on blockchain  
+- 🔹 **Smart Education Platform** — Personalized learning app for students  
+- 🔹 **Accessible E-Book Reader** — Designed for dyslexic learners with TTS support  
+- 🔹 **Crypto Transaction Tracker** — Tracing P2P crypto transactions  
+
+---
+
+## 🚀 Getting Started  
+
+Clone the repo:  
+```bash
+git clone https://github.com/jaiganesh2108/portfolio.git
+cd portfolio
+```
+
+<h1 align="center"> Thank you!</h1>
