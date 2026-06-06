@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import profileImg1 from './assets/profile2.jpg';
+import resumePdf from './assets/Resume.pdf';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&family=Barlow:wght@400;500&display=swap');
@@ -140,6 +141,41 @@ const styles = `
     border-radius: 50%;
     background: var(--acid);
     flex-shrink: 0;
+  }
+
+  .ra-cta-row {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .ra-resume-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: transparent;
+    color: var(--black);
+    border: 1.6px solid var(--black);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    padding: 0.55rem 1rem;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+
+  .ra-resume-btn:hover {
+    background: var(--black);
+    color: var(--acid);
+    transform: translateY(-2px);
+  }
+
+  .ra-resume-btn .arrow {
+    font-size: 0.85rem;
+    line-height: 1;
   }
 
   .ra-bottom-left {
@@ -447,6 +483,17 @@ const AboutMe = () => {
             <div className="ra-skill-pill">
               <span className="dot" />
               {skills[activeSkillIndex]}
+            </div>
+
+            <div className="ra-cta-row">
+              <a
+                className="ra-resume-btn"
+                href={resumePdf}
+                download="Resume.pdf"
+              >
+                Download Resume
+                <span className="arrow">↓</span>
+              </a>
             </div>
           </div>
 
