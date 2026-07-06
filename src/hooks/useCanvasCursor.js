@@ -1,146 +1,199 @@
+// @ts-nocheck
+
 import { useEffect } from 'react';
 
-const useCanvasCursor = canvasRef => {
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return undefined;
+const useCanvasCursor = () => {
+  function n(e) {
+    this.init(e || {});
+  }
+  n.prototype = {
+    init: function (e) {
+      this.phase = e.phase || 0;
+      this.offset = e.offset || 0;
+      this.frequency = e.frequency || 0.001;
+      this.amplitude = e.amplitude || 1;
+    },
+    update: function () {
+      return (
+        (this.phase += this.frequency),
+        (e = this.offset + Math.sin(this.phase) * this.amplitude)
+      );
+    },
+    value: function () {
+      return e;
+    },
+  };
 
-    const context = canvas.getContext('2d');
-    if (!context) return undefined;
+  function Line(e) {
+    this.init(e || {});
+  }
 
-    const devicePixelRatio = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
-
-    let animationFrameId = 0;
-    let isVisible = false;
-    let width = 0;
-    let height = 0;
-
-    const pointer = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.28 };
-    const follower = { x: pointer.x, y: pointer.y };
-    const trail = Array.from({ length: 6 }, () => ({ x: pointer.x, y: pointer.y }));
-
-    const resizeCanvas = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-
-      canvas.width = Math.round(width * devicePixelRatio);
-      canvas.height = Math.round(height * devicePixelRatio);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-    };
-
-    const setPointer = (x, y) => {
-      pointer.x = x;
-      pointer.y = y;
-      isVisible = true;
-    };
-
-    const handleMouseMove = event => {
-      setPointer(event.clientX, event.clientY);
-    };
-
-    const handleTouchMove = event => {
-      if (!event.touches || event.touches.length === 0) return;
-      const touch = event.touches[0];
-      setPointer(touch.clientX, touch.clientY);
-    };
-
-    const handlePointerLeave = () => {
-      isVisible = false;
-    };
-
-    const updateTrail = () => {
-      const easing = 0.22;
-
-      follower.x += (pointer.x - follower.x) * easing;
-      follower.y += (pointer.y - follower.y) * easing;
-
-      trail[0].x = follower.x;
-      trail[0].y = follower.y;
-
-      for (let index = 1; index < trail.length; index += 1) {
-        const previous = trail[index - 1];
-        const current = trail[index];
-        const drift = 0.18 - index * 0.015;
-        current.x += (previous.x - current.x) * drift;
-        current.y += (previous.y - current.y) * drift;
+  Line.prototype = {
+    init: function (e) {
+      this.spring = e.spring + 0.1 * Math.random() - 0.02;
+      this.friction = E.friction + 0.01 * Math.random() - 0.002;
+      this.nodes = [];
+      for (var t, n = 0; n < E.size; n++) {
+        t = new Node();
+        t.x = pos.x;
+        t.y = pos.y;
+        this.nodes.push(t);
       }
-    };
-
-    const drawCursor = () => {
-      context.clearRect(0, 0, width, height);
-
-      if (!isVisible) return;
-
-      context.save();
-      context.globalCompositeOperation = 'screen';
-      context.lineCap = 'round';
-      context.lineJoin = 'round';
-
-      for (let index = trail.length - 1; index > 0; index -= 1) {
-        const current = trail[index];
-        const previous = trail[index - 1];
-        const alpha = Math.max(0.04, 0.2 - index * 0.025);
-        const radius = Math.max(2, 10 - index * 1.2);
-
-        context.beginPath();
-        context.moveTo(previous.x, previous.y);
-        context.lineTo(current.x, current.y);
-        context.strokeStyle = index % 2 === 0 ? `rgba(204, 255, 0, ${alpha})` : `rgba(34, 211, 238, ${alpha * 0.7})`;
-        context.lineWidth = radius * 0.55;
-        context.stroke();
+    },
+    update: function () {
+      var e = this.spring,
+        t = this.nodes[0];
+      t.vx += (pos.x - t.x) * e;
+      t.vy += (pos.y - t.y) * e;
+      for (var n, i = 0, a = this.nodes.length; i < a; i++)
+        ((t = this.nodes[i]),
+          0 < i &&
+            ((n = this.nodes[i - 1]),
+            (t.vx += (n.x - t.x) * e),
+            (t.vy += (n.y - t.y) * e),
+            (t.vx += n.vx * E.dampening),
+            (t.vy += n.vy * E.dampening)),
+          (t.vx *= this.friction),
+          (t.vy *= this.friction),
+          (t.x += t.vx),
+          (t.y += t.vy),
+          (e *= E.tension));
+    },
+    draw: function () {
+      var e,
+        t,
+        n = this.nodes[0].x,
+        i = this.nodes[0].y;
+      ctx.beginPath();
+      ctx.moveTo(n, i);
+      for (var a = 1, o = this.nodes.length - 2; a < o; a++) {
+        e = this.nodes[a];
+        t = this.nodes[a + 1];
+        n = 0.5 * (e.x + t.x);
+        i = 0.5 * (e.y + t.y);
+        ctx.quadraticCurveTo(e.x, e.y, n, i);
       }
+      e = this.nodes[a];
+      t = this.nodes[a + 1];
+      ctx.quadraticCurveTo(e.x, e.y, t.x, t.y);
+      ctx.stroke();
+      ctx.closePath();
+    },
+  };
 
-      const head = trail[0];
-      const halo = context.createRadialGradient(head.x, head.y, 0, head.x, head.y, 36);
-      halo.addColorStop(0, 'rgba(204,255,0,0.34)');
-      halo.addColorStop(0.4, 'rgba(34,211,238,0.12)');
-      halo.addColorStop(1, 'rgba(34,211,238,0)');
+  function onMousemove(e) {
+    function o() {
+      lines = [];
+      for (var e = 0; e < E.trails; e++)
+        lines.push(new Line({ spring: 0.4 + (e / E.trails) * 0.025 }));
+    }
+    function c(e) {
+      (e.touches
+        ? ((pos.x = e.touches[0].pageX), (pos.y = e.touches[0].pageY))
+        : ((pos.x = e.clientX), (pos.y = e.clientY)),
+        e.preventDefault());
+    }
+    function l(e) {
+      1 == e.touches.length &&
+        ((pos.x = e.touches[0].pageX), (pos.y = e.touches[0].pageY));
+    }
+    (document.removeEventListener('mousemove', onMousemove),
+      document.removeEventListener('touchstart', onMousemove),
+      document.addEventListener('mousemove', c),
+      document.addEventListener('touchmove', c),
+      document.addEventListener('touchstart', l),
+      c(e),
+      o(),
+      render());
+  }
 
-      context.beginPath();
-      context.fillStyle = halo;
-      context.arc(head.x, head.y, 16, 0, Math.PI * 2);
-      context.fill();
+  function render() {
+    if (ctx.running) {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.strokeStyle = 'hsla(' + Math.round(f.update()) + ',50%,50%,0.2)';
+      ctx.lineWidth = 1;
+      for (var e, t = 0; t < E.trails; t++) {
+        (e = lines[t]).update();
+        e.draw();
+      }
+      ctx.frame++;
+      window.requestAnimationFrame(render);
+    }
+  }
 
-      context.beginPath();
-      context.fillStyle = 'rgba(245, 245, 245, 0.72)';
-      context.arc(head.x, head.y, 2.4, 0, Math.PI * 2);
-      context.fill();
+  function resizeCanvas() {
+    ctx.canvas.width = window.innerWidth - 20;
+    ctx.canvas.height = window.innerHeight;
+  }
 
-      context.restore();
+  var ctx,
+    f,
+    e = 0,
+    pos = {},
+    lines = [],
+    E = {
+      debug: true,
+      friction: 0.5,
+      trails: 20,
+      size: 50,
+      dampening: 0.25,
+      tension: 0.98,
     };
+  function Node() {
+    this.x = 0;
+    this.y = 0;
+    this.vy = 0;
+    this.vx = 0;
+  }
 
-    const animate = () => {
-      updateTrail();
-      drawCursor();
-      animationFrameId = window.requestAnimationFrame(animate);
-    };
-
-    const start = () => {
-      cancelAnimationFrame(animationFrameId);
-      animate();
-    };
-
-    resizeCanvas();
-    start();
-
+  const renderCanvas = function () {
+    ctx = document.getElementById('canvas').getContext('2d');
+    ctx.running = true;
+    ctx.frame = 1;
+    f = new n({
+      phase: Math.random() * 2 * Math.PI,
+      amplitude: 85,
+      frequency: 0.0015,
+      offset: 285,
+    });
+    document.addEventListener('mousemove', onMousemove);
+    document.addEventListener('touchstart', onMousemove);
+    document.body.addEventListener('orientationchange', resizeCanvas);
     window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('mouseleave', handlePointerLeave);
-    window.addEventListener('blur', handlePointerLeave);
+    window.addEventListener('focus', () => {
+      if (!ctx.running) {
+        ctx.running = true;
+        render();
+      }
+    });
+    window.addEventListener('blur', () => {
+      ctx.running = true;
+    });
+    resizeCanvas();
+  };
+
+  useEffect(() => {
+    renderCanvas();
 
     return () => {
+      ctx.running = false;
+      document.removeEventListener('mousemove', onMousemove);
+      document.removeEventListener('touchstart', onMousemove);
+      document.body.removeEventListener('orientationchange', resizeCanvas);
       window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('mouseleave', handlePointerLeave);
-      window.removeEventListener('blur', handlePointerLeave);
-      cancelAnimationFrame(animationFrameId);
-      context.clearRect(0, 0, width, height);
+      window.removeEventListener('focus', () => {
+        if (!ctx.running) {
+          ctx.running = true;
+          render();
+        }
+      });
+      window.removeEventListener('blur', () => {
+        ctx.running = true;
+      });
     };
-  }, [canvasRef]);
+  }, []);
 };
 
 export default useCanvasCursor;

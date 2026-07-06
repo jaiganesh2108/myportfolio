@@ -6,11 +6,13 @@ import Achievements from './components/Achievements/Achievements';
 import Education from './components/Education/Education';
 import GitHub from './components/GitHub/GitHub';
 import Connect from './components/Connect/Connect';
+import CanvasCursor from './components/CanvasCursor/CanvasCursor';
 import './index.css';
 
 function App() {
   return (
     <div>
+      <CanvasCursor />
       <NavBar />
       <AboutMe />
       <Skills />

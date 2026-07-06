@@ -1,3 +1,31 @@
+ :root {
+  color-scheme: dark;
+  --app-bg: #050505;
+  --app-surface: #0a0a0a;
+  --app-panel: #111111;
+  --app-border: #2a2a2a;
+  --app-text: #f0f0f0;
+  --app-muted: #888888;
+  --app-accent: #ccff00;
+  --app-accent-rgb: 204, 255, 0;
+  --app-ink: #000000;
+  --app-ink-rgb: 0, 0, 0;
+}
+
+body[data-theme='light'] {
+  color-scheme: light;
+  --app-bg: #ffffff;
+  --app-surface: #ffffff;
+  --app-panel: #f4edff;
+  --app-border: #dcc9ff;
+  --app-text: #241638;
+  --app-muted: #6f5a8f;
+  --app-accent: #7b3ff2;
+  --app-accent-rgb: 123, 63, 242;
+  --app-ink: #7b3ff2;
+  --app-ink-rgb: 123, 63, 242;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,9 +34,9 @@
 
 body {
   background:
-    radial-gradient(circle at top, rgba(204, 255, 0, 0.06), transparent 30%),
-    linear-gradient(135deg, #050505 0%, #0a0a0a 44%, #070707 100%);
-  color: #f0f0f0;
+    radial-gradient(circle at top, rgba(var(--app-accent-rgb), 0.1), transparent 30%),
+    linear-gradient(135deg, var(--app-bg) 0%, var(--app-surface) 44%, var(--app-bg) 100%);
+  color: var(--app-text);
   font-family: 'Barlow', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
@@ -24,10 +52,10 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--app-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CCFF00;
+  background: var(--app-accent);
   border-radius: 4px;
 }
