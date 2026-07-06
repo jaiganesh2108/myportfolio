@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap');
@@ -19,13 +19,19 @@ const styles = `
     top: 0;
     left: 0;
     z-index: 1000;
-    transition: background 0.3s, border-color 0.3s;
+    transition: background 0.3s, border-color 0.3s, transform 0.35s ease, opacity 0.35s ease;
   }
 
   .nb.scrolled {
     background: rgba(10, 10, 10, 0.96);
     border-bottom-color: rgba(204, 255, 0, 0.18);
     backdrop-filter: blur(8px);
+  }
+
+  .nb.hidden {
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
   }
 
   .nb-container {
@@ -204,6 +210,18 @@ const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [hidden, setHidden] = useState(false);
+  const idleTimerRef = useRef(null);
+
+  const showNav = () => setHidden(false);
+
+  const resetIdleTimer = () => {
+    showNav();
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    idleTimerRef.current = setTimeout(() => {
+      if (!expanded) setHidden(true);
+    }, 2500);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -219,16 +237,44 @@ const NavBar = () => {
           }
         }
       });
+
+      resetIdleTimer();
     };
 
+    const handleActivity = () => resetIdleTimer();
+    const handleFocus = () => showNav();
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('keydown', handleActivity);
+    window.addEventListener('touchstart', handleActivity, { passive: true });
+    window.addEventListener('focus', handleFocus);
+
+    resetIdleTimer();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+      window.removeEventListener('touchstart', handleActivity);
+      window.removeEventListener('focus', handleFocus);
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    };
   }, []);
 
-  const toggleMenu = () => setExpanded(p => !p);
+  useEffect(() => {
+    if (expanded) setHidden(false);
+  }, [expanded]);
+
+  const toggleMenu = () => {
+    setExpanded(p => !p);
+    setHidden(false);
+  };
 
   const handleLinkClick = () => {
     if (expanded) setExpanded(false);
+    showNav();
+    resetIdleTimer();
   };
 
   const activeIndex = sections.findIndex(s => s.toLowerCase() === activeSection);
@@ -237,7 +283,7 @@ const NavBar = () => {
   return (
     <>
       <style>{styles}</style>
-      <nav className={`nb ${scrolled ? 'scrolled' : ''}`}>
+      <nav className={`nb ${scrolled ? 'scrolled' : ''} ${hidden && !expanded ? 'hidden' : ''}`}>
         <div className="nb-container">
           <a href="#home" className="nb-logo">JG</a>
 

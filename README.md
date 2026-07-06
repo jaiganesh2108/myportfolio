@@ -50,5 +50,6 @@ Clone the repo:
 git clone https://github.com/jaiganesh2108/portfolio.git
 cd portfolio
 ```
+https://cursify.ui-layouts.com/components/canvas-cursor
 
 <h1 align="center"> Thank you!</h1>

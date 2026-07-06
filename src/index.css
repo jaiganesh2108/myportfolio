@@ -5,9 +5,11 @@
 }
 
 body {
-  background: linear-gradient(135deg, #1e3a8a, #6b21a8);
-  color: #e5e7eb;
-  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(204, 255, 0, 0.06), transparent 30%),
+    linear-gradient(135deg, #050505 0%, #0a0a0a 44%, #070707 100%);
+  color: #f0f0f0;
+  font-family: 'Barlow', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
 }
@@ -22,10 +24,10 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e3a8a;
+  background: #0a0a0a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4af37;
+  background: #CCFF00;
   border-radius: 4px;
 }
