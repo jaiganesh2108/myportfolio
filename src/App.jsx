@@ -12,7 +12,6 @@ import './index.css';
 function App() {
   return (
     <div>
-      <CanvasCursor />
       <NavBar />
       <AboutMe />
       <Skills />

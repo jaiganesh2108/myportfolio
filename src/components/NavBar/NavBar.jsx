@@ -1,205 +1,235 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import profileImg1 from './assets/profile2.jpg';
+import resumePdf from './assets/Resume.pdf';
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&family=Barlow:wght@500;600;700&display=swap');
 
   :root {
-    --acid: #CCFF00;
-    --black: #0A0A0A;
-    --panel: #161616;
-    --border: #2A2A2A;
-    --muted: #888888;
+    --acid: #CBFF3E;
+    --acid-dim: #AEDD1F;
+    --ink: #0D1130;
+    --ink-soft: rgba(13,17,48,0.62);
+    --ink-faint: rgba(13,17,48,0.4);
+    --pill-bg: rgba(255,255,255,0.88);
+    --pill-border: rgba(13,17,48,0.08);
   }
 
-  .nb {
-    width: 100%;
-    background: var(--black);
-    border-bottom: 1px solid var(--border);
+  .nb-wrap {
     position: fixed;
-    top: 0;
+    top: 1.1rem;
     left: 0;
+    right: 0;
     z-index: 1000;
-    transition: background 0.3s, border-color 0.3s, transform 0.35s ease, opacity 0.35s ease;
-  }
-
-  .nb.scrolled {
-    background: rgba(10, 10, 10, 0.96);
-    border-bottom-color: rgba(204, 255, 0, 0.18);
-    backdrop-filter: blur(8px);
-  }
-
-  .nb.hidden {
-    transform: translateY(-110%);
-    opacity: 0;
+    display: flex;
+    justify-content: center;
+    padding: 0 1.25rem;
     pointer-events: none;
   }
 
-  .nb-container {
-    max-width: 1400px;
-    margin: 0 auto;
+  .nb-pill {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 760px;
     display: flex;
     align-items: center;
-    height: 58px;
-    padding: 0 2rem;
-    gap: 1.5rem;
+    gap: 0.5rem;
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    border-radius: 999px;
+    padding: 0.45rem 0.55rem 0.45rem 0.55rem;
+    box-shadow: 0 10px 30px rgba(13,17,48,0.08);
+    backdrop-filter: blur(10px);
+    transition: box-shadow 0.3s ease, transform 0.35s ease, opacity 0.35s ease, background 0.3s ease;
+    font-family: 'Barlow', sans-serif;
   }
 
-  /* Logo */
-  .nb-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: 1.5rem;
-    color: var(--acid);
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    border: 2px solid var(--acid);
-    padding: 0.2rem 0.75rem;
-    line-height: 1;
-    flex-shrink: 0;
-    user-select: none;
+  .nb-pill.scrolled {
+    box-shadow: 0 14px 34px rgba(13,17,48,0.14);
+    background: rgba(255,255,255,0.96);
+  }
+
+  .nb-pill.hidden {
+    transform: translateY(-140%);
+    opacity: 0;
+  }
+
+  /* brand: avatar + name */
+  .nb-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
     text-decoration: none;
-  }
-
-  /* Section index label */
-  .nb-divider {
-    width: 1px;
-    height: 28px;
-    background: var(--border);
+    padding: 0.15rem 0.6rem 0.15rem 0.15rem;
     flex-shrink: 0;
   }
 
-  .nb-index {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.6rem;
-    color: rgba(204, 255, 0, 0.35);
-    letter-spacing: 0.12em;
+  .nb-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--acid);
+    flex-shrink: 0;
+  }
+
+  .nb-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    display: block;
+  }
+
+  .nb-name {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--ink);
     white-space: nowrap;
-    flex-shrink: 0;
-    transition: color 0.3s;
   }
 
-  .nb.scrolled .nb-index {
-    color: rgba(204, 255, 0, 0.55);
-  }
-
-  /* Desktop links */
+  /* desktop links */
   .nb-links {
     display: flex;
     align-items: center;
-    margin-left: auto;
+    gap: 0.2rem;
+    margin: 0 auto;
+    flex-wrap: nowrap;
   }
 
   .nb-link {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
     text-decoration: none;
-    padding: 0.5rem 0.9rem;
-    position: relative;
-    transition: color 0.2s;
+    padding: 0.5rem 0.7rem;
+    border-radius: 999px;
     white-space: nowrap;
-  }
-
-  .nb-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0.9rem;
-    right: 0.9rem;
-    height: 1.5px;
-    background: var(--acid);
-    transform: scaleX(0);
-    transition: transform 0.2s;
-    transform-origin: left;
+    transition: color 0.2s ease, background 0.2s ease;
   }
 
   .nb-link:hover {
-    color: var(--acid);
-  }
-
-  .nb-link:hover::after,
-  .nb-link.active::after {
-    transform: scaleX(1);
+    color: var(--ink);
+    background: rgba(13,17,48,0.05);
   }
 
   .nb-link.active {
-    color: var(--acid);
+    color: var(--ink);
+    background: rgba(203,255,62,0.35);
   }
 
-  /* Mobile toggle */
+  /* resume pill button */
+  .nb-resume {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: var(--ink);
+    text-decoration: none;
+    background: rgba(13,17,48,0.06);
+    border: 1px solid var(--pill-border);
+    padding: 0.55rem 1.15rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .nb-resume:hover {
+    background: var(--ink);
+    color: var(--acid);
+    transform: translateY(-1px);
+  }
+
+  /* mobile toggle */
   .nb-toggle {
     display: none;
-    background: none;
-    border: 1.5px solid var(--border);
-    color: var(--acid);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.7rem;
-    padding: 0.35rem 0.75rem;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(13,17,48,0.06);
+    border: 1px solid var(--pill-border);
+    border-radius: 50%;
+    color: var(--ink);
+    font-size: 1rem;
     cursor: pointer;
-    margin-left: auto;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: border-color 0.2s, color 0.2s;
     flex-shrink: 0;
+    margin-left: auto;
+    transition: background 0.2s ease;
   }
 
   .nb-toggle:hover {
-    border-color: var(--acid);
+    background: rgba(13,17,48,0.1);
   }
 
-  /* Mobile menu */
+  /* mobile dropdown card */
+  .nb-mobile-wrap {
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    padding: 0 1.25rem;
+  }
+
   .nb-mobile {
-    display: none;
-    background: var(--panel);
-    border-top: 1px solid var(--border);
+    pointer-events: auto;
+    width: 100%;
+    max-width: 760px;
+    margin-top: 0.6rem;
+    background: rgba(255,255,255,0.98);
+    border: 1px solid var(--pill-border);
+    border-radius: 22px;
+    box-shadow: 0 14px 34px rgba(13,17,48,0.14);
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.3s ease;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
   }
 
   .nb-mobile.open {
-    max-height: 500px;
+    max-height: 480px;
+    opacity: 1;
   }
 
   .nb-mlink {
     display: block;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
     text-decoration: none;
-    padding: 0.9rem 2rem;
-    border-bottom: 1px solid var(--border);
-    border-left: 2px solid transparent;
-    transition: color 0.2s, background 0.2s, border-left-color 0.2s;
+    padding: 0.85rem 1.4rem;
+    border-bottom: 1px solid var(--pill-border);
+    border-left: 3px solid transparent;
+    transition: color 0.2s ease, background 0.2s ease, border-left-color 0.2s ease;
   }
+
+  .nb-mlink:last-child { border-bottom: none; }
 
   .nb-mlink:hover,
   .nb-mlink.active {
-    color: var(--acid);
-    background: rgba(204, 255, 0, 0.04);
+    color: var(--ink);
+    background: rgba(203,255,62,0.14);
     border-left-color: var(--acid);
   }
 
-  /* Responsive */
-  @media (max-width: 900px) {
+  .nb-mresume {
+    display: block;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--ink);
+    text-decoration: none;
+    text-align: center;
+    padding: 0.9rem 1.4rem;
+    background: rgba(13,17,48,0.05);
+  }
+
+  @media (max-width: 860px) {
     .nb-links,
-    .nb-divider,
-    .nb-index {
+    .nb-resume {
       display: none;
     }
 
     .nb-toggle {
       display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .nb-mobile {
-      display: block;
     }
   }
 `;
@@ -228,7 +258,7 @@ const NavBar = () => {
       setScrolled(window.scrollY > 50);
 
       const currentPos = window.scrollY + 100;
-      sections.forEach(section => {
+      sections.forEach((section) => {
         const element = document.getElementById(section.toLowerCase());
         if (element) {
           const { offsetTop, offsetHeight } = element;
@@ -260,6 +290,7 @@ const NavBar = () => {
       window.removeEventListener('focus', handleFocus);
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -267,7 +298,7 @@ const NavBar = () => {
   }, [expanded]);
 
   const toggleMenu = () => {
-    setExpanded(p => !p);
+    setExpanded((p) => !p);
     setHidden(false);
   };
 
@@ -277,22 +308,21 @@ const NavBar = () => {
     resetIdleTimer();
   };
 
-  const activeIndex = sections.findIndex(s => s.toLowerCase() === activeSection);
-  const indexLabel = `// ${String(activeIndex >= 0 ? activeIndex : 0).padStart(2, '0')} — ${activeSection.toUpperCase()}`;
-
   return (
     <>
       <style>{styles}</style>
-      <nav className={`nb ${scrolled ? 'scrolled' : ''} ${hidden && !expanded ? 'hidden' : ''}`}>
-        <div className="nb-container">
-          <a href="#home" className="nb-logo">JG</a>
 
-          <div className="nb-divider" />
-          <span className="nb-index">{indexLabel}</span>
+      <div className="nb-wrap">
+        <div className={`nb-pill ${scrolled ? 'scrolled' : ''} ${hidden && !expanded ? 'hidden' : ''}`}>
+          <a href="#home" className="nb-brand" onClick={handleLinkClick}>
+            <span className="nb-avatar">
+              <img src={profileImg1} alt="Jai Ganesh H" />
+            </span>
+            <span className="nb-name">Jai Ganesh H</span>
+          </a>
 
-          {/* Desktop links */}
           <div className="nb-links">
-            {sections.map(section => (
+            {sections.slice(1).map((section) => (
               <a
                 key={section}
                 href={`#${section.toLowerCase()}`}
@@ -304,19 +334,23 @@ const NavBar = () => {
             ))}
           </div>
 
-          {/* Mobile toggle */}
+          <a className="nb-resume" href={resumePdf} download="Resume.pdf">
+            Resume
+          </a>
+
           <button
             className="nb-toggle"
             onClick={toggleMenu}
             aria-label={expanded ? 'Close menu' : 'Open menu'}
           >
-            {expanded ? '✕ CLOSE' : '☰ MENU'}
+            {expanded ? '✕' : '☰'}
           </button>
         </div>
+      </div>
 
-        {/* Mobile menu */}
+      <div className="nb-mobile-wrap" style={{ position: 'fixed', top: '4.3rem', left: 0, right: 0, zIndex: 999 }}>
         <div className={`nb-mobile ${expanded ? 'open' : ''}`}>
-          {sections.map(section => (
+          {sections.map((section) => (
             <a
               key={section}
               href={`#${section.toLowerCase()}`}
@@ -326,8 +360,11 @@ const NavBar = () => {
               {section}
             </a>
           ))}
+          <a className="nb-mresume" href={resumePdf} download="Resume.pdf" onClick={handleLinkClick}>
+            Download Resume
+          </a>
         </div>
-      </nav>
+      </div>
     </>
   );
 };
