@@ -18,7 +18,6 @@ function App() {
       <Projects />
       <Achievements />
       <Education />
-      <GitHub />
       <Connect />
     </div>
   );

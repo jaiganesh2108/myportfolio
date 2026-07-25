@@ -235,7 +235,7 @@ const styles = `
 `;
 
 const NavBar = () => {
-  const sections = ['Home', 'Skills', 'Projects', 'Achievements', 'Education', 'GitHub', 'Connect'];
+  const sections = ['Home', 'Skills', 'Projects', 'Achievements', 'Education', 'Connect'];
 
   const [scrolled, setScrolled] = useState(false);
   const [expanded, setExpanded] = useState(false);
