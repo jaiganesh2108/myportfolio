@@ -4,17 +4,21 @@ import resumePdf from './assets/Resume.pdf';
 import InteractiveDots from './InteractiveDots';
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&family=Barlow:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Share+Tech+Mono&family=Barlow:wght@400;500;600&family=Fraunces:ital,wght@0,600;1,600&display=swap');
 
   :root {
     --acid: #CBFF3E;
     --acid-dim: #AEDD1F;
+    --acid-deep: #7BA80E;
     --violet: #C084FC;
+    --violet-deep: #8B4FD6;
+    --coral: #FF8A65;
+    --coral-deep: #E05B33;
     --ink: #0D1130;
-    --ink-soft: rgba(13,17,48,0.6);
-    --ink-faint: rgba(13,17,48,0.38);
+    --ink-soft: rgba(13,17,48,0.68);
+    --ink-faint: rgba(13,17,48,0.5);
     --bg: #FBFAF6;
-    --line: rgba(13,17,48,0.08);
+    --line: rgba(13,17,48,0.1);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,12 +44,6 @@ const styles = `
     position: absolute;
     inset: 0;
     z-index: 0;
-  }
-
-  .jg-dots-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
   }
 
   .jg-bg-blob {
@@ -86,41 +84,67 @@ const styles = `
     to { transform: translate(-35px, -25px) scale(1.06); }
   }
 
-  .jg-hero {
+  .jg-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* giant ghost type behind the hero — the thing that makes it feel
+     art-directed instead of a stock "centered hero" template */
+  .jg-watermark {
+    position: absolute;
+    top: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(5.5rem, 16vw, 13rem);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    color: var(--ink);
+    opacity: 0.035;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .jg-hero-grid {
     position: relative;
     z-index: 1;
-    max-width: 1100px;
+    max-width: 1160px;
     margin: 0 auto;
-    padding: 4.5rem 2rem 2.75rem;
-    display: flex;
-    flex-direction: column;
+    padding: 4.25rem 2rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1.12fr 0.88fr;
+    gap: 2.5rem;
     align-items: center;
-    text-align: center;
   }
 
-  /* content sits above the canvas visually, but doesn't block mouse
-     tracking — the dots listen on window, so this is purely about
-     click-through for links/buttons underneath text if ever needed */
-  .jg-hero * {
-    position: relative;
-  }
+  .jg-hero-grid * { position: relative; }
 
-  /* hand-drawn squiggle doodles */
+  .jg-hero-left { text-align: left; }
+
   .jg-doodle {
     position: absolute;
     stroke: var(--ink);
-    opacity: 0.45;
+    opacity: 0.4;
     z-index: 1;
   }
-  .jg-doodle-top { top: 3.6rem; left: 50%; transform: translateX(90px); width: 70px; }
+  .jg-doodle-top { top: -1.6rem; left: 2px; width: 62px; }
 
   .jg-eyebrow {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 1.7rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin-bottom: 1.6rem;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -136,7 +160,7 @@ const styles = `
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--acid);
+    background: var(--acid-deep);
     box-shadow: 0 0 0 3px rgba(203,255,62,0.25);
     animation: pulseDot 1.8s ease-in-out infinite;
   }
@@ -146,68 +170,13 @@ const styles = `
     50% { opacity: 0.4; transform: scale(0.8); }
   }
 
-  .jg-headline {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 5.6vw, 4.6rem);
-    line-height: 1.06;
-    letter-spacing: -0.01em;
-    max-width: 960px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.3em 0.28em;
-    opacity: 0;
-    animation: fadeUp 0.6s ease 0.15s forwards;
-  }
-
-  .jg-avatar-wrap {
-    position: relative;
-    width: 132px;
-    height: 132px;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s ease 0.1s forwards, avatarFloat 6s ease-in-out 0.7s infinite;
-    opacity: 0;
-  }
-
-  .jg-avatar-glow {
-    position: absolute;
-    inset: -16px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(203,255,62,0.4), transparent 70%);
-    filter: blur(12px);
-    z-index: 0;
-  }
-
-  .jg-avatar {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid var(--acid);
-    box-shadow: 0 16px 34px rgba(13,17,48,0.16);
-    z-index: 1;
-    background: #fff;
-  }
-
-  .jg-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 18%;
-    display: block;
-  }
-
-  @keyframes avatarFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
   .jg-highlight {
     position: relative;
     white-space: nowrap;
+    font-style: italic;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--ink);
   }
 
   .jg-highlight::after {
@@ -219,7 +188,7 @@ const styles = `
     height: 0.34em;
     background: var(--acid);
     z-index: -1;
-    opacity: 0.55;
+    opacity: 0.65;
     transform-origin: left;
     animation: highlightSweep 1.4s ease 0.5s both;
   }
@@ -229,18 +198,94 @@ const styles = `
     to { transform: scaleX(1); }
   }
 
+  .jg-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.4rem, 4.6vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3em 0.28em;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.15s forwards;
+  }
+
+  /* individually-colored keywords instead of one flat block of text */
+  .jg-word {
+    padding-bottom: 0.04em;
+    border-bottom: 4px solid transparent;
+  }
+  .jg-word.is-acid { border-color: var(--acid-deep); }
+  .jg-word.is-violet { border-color: var(--violet-deep); }
+  .jg-word.is-coral { border-color: var(--coral-deep); }
+
+  .jg-role {
+    margin-top: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(0.8rem, 1vw, 0.92rem);
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(13,17,48,0.04);
+    border: 1px solid var(--line);
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.2s forwards;
+  }
+
+  .jg-role .prompt { color: var(--violet-deep); font-weight: 600; }
+
+  .jg-role-text {
+    position: relative;
+    display: inline-block;
+    min-width: 13ch;
+    text-align: left;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .jg-role-text span {
+    display: inline-block;
+    animation: roleSwap 0.45s ease both;
+  }
+
+  @keyframes roleSwap {
+    from { opacity: 0; transform: translateY(6px); filter: blur(2px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  .jg-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--acid-deep);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
   .jg-subline {
     margin-top: 1.3rem;
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
     color: var(--ink-soft);
-    max-width: 620px;
+    max-width: 560px;
     line-height: 1.65;
     opacity: 0;
-    animation: fadeUp 0.6s ease 0.25s forwards;
+    animation: fadeUp 0.6s ease 0.28s forwards;
   }
 
   .jg-subline strong {
-    color: var(--ink);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--violet-deep);
     font-weight: 600;
   }
 
@@ -250,12 +295,9 @@ const styles = `
     align-items: center;
     gap: 1.1rem;
     flex-wrap: wrap;
-    justify-content: center;
     opacity: 0;
-    animation: fadeUp 0.6s ease 0.35s forwards;
+    animation: fadeUp 0.6s ease 0.38s forwards;
   }
-
-  .jg-cta-doodle { width: 60px; opacity: 0.42; }
 
   .jg-cta-primary {
     display: inline-flex;
@@ -273,9 +315,16 @@ const styles = `
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .jg-cta-primary:hover {
+  .jg-cta-primary:hover,
+  .jg-cta-primary:focus-visible {
     transform: translateY(-2px);
     box-shadow: 0 16px 34px rgba(203,255,62,0.45);
+  }
+
+  .jg-cta-primary:focus-visible,
+  .jg-cta-ghost:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
   }
 
   .jg-cta-primary .arrow-circle {
@@ -307,24 +356,142 @@ const styles = `
     background: rgba(255,255,255,0.7);
     cursor: pointer;
     text-decoration: none;
-    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
   }
 
   .jg-cta-ghost:hover {
     border-color: var(--ink);
     color: var(--ink);
     background: #fff;
+    transform: translateY(-2px);
   }
 
-  /* scroll cue */
+  /* ── photo stage: a static, tilted "polaroid" instead of a floating
+     circular avatar. no auto-playing motion lives here. ── */
+  .jg-hero-right {
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.22s forwards;
+  }
+
+  .jg-photo-stage {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .jg-photo-card {
+    position: relative;
+    background: #fff;
+    padding: 12px 12px 46px;
+    border-radius: 14px;
+    border: 2px solid var(--ink);
+    box-shadow: 10px 12px 0 var(--acid), 10px 12px 0 1px var(--ink);
+    transform: rotate(-3.5deg);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  .jg-photo-card:hover {
+    transform: rotate(0deg) translateY(-2px);
+    box-shadow: 6px 8px 0 var(--acid), 6px 8px 0 1px var(--ink);
+  }
+
+  .jg-photo-frame {
+    width: 100%;
+    aspect-ratio: 1 / 1.05;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .jg-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    display: block;
+  }
+
+  .jg-photo-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12px;
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+
+  .jg-sticker {
+    position: absolute;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    background: #fff;
+    box-shadow: 4px 4px 0 var(--ink);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .jg-sticker-1 {
+    top: -14px;
+    left: -34px;
+    background: var(--acid);
+    transform: rotate(-7deg);
+  }
+
+  .jg-sticker-2 {
+    bottom: 18px;
+    right: -30px;
+    background: var(--bg);
+    color: var(--violet-deep);
+    transform: rotate(5deg);
+  }
+
+  .jg-stamp {
+    position: absolute;
+    top: -22px;
+    right: -18px;
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--acid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.56rem;
+    letter-spacing: 0.06em;
+    line-height: 1.25;
+    text-transform: uppercase;
+    padding: 0.4rem;
+    transform: rotate(9deg);
+    border: 3px solid var(--bg);
+    box-shadow: 0 8px 18px rgba(13,17,48,0.25);
+    z-index: 2;
+  }
+
   .jg-scroll-cue {
-    margin-top: 2.4rem;
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.4rem;
+    padding-bottom: 1.6rem;
     opacity: 0;
-    animation: fadeUp 0.6s ease 0.45s forwards, bob 2.4s ease-in-out 1.2s infinite;
+    animation: fadeUp 0.6s ease 0.46s forwards, bob 2.4s ease-in-out 1.2s infinite;
   }
 
   .jg-scroll-cue span {
@@ -342,61 +509,67 @@ const styles = `
     50% { transform: translateY(6px); }
   }
 
-  /* tools / "brands" row */
-  .jg-tools {
+  /* ── ticker marquee replaces the old static tag row — motion lives
+     here instead of on the photo ── */
+  .jg-marquee {
     position: relative;
     z-index: 1;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 2rem 2rem 2.75rem;
     border-top: 1px solid var(--line);
-    display: flex;
-    align-items: center;
-    gap: 2.4rem;
-    flex-wrap: wrap;
+    padding: 1.3rem 0;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
 
-  .jg-tools-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
+  .jg-marquee-track {
+    display: inline-flex;
+    width: max-content;
+    animation: marqueeScroll 24s linear infinite;
+  }
+
+  .jg-marquee:hover .jg-marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .jg-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.4rem;
+    padding: 0 1.4rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.3rem, 2.6vw, 2rem);
     text-transform: uppercase;
+    letter-spacing: -0.01em;
     color: var(--ink-faint);
     white-space: nowrap;
   }
 
-  .jg-tools-list {
-    display: flex;
-    gap: 2.2rem;
-    flex-wrap: wrap;
-    flex: 1;
-  }
+  .jg-marquee-item:nth-child(3n+1) { color: var(--ink); }
+  .jg-marquee-item:nth-child(3n+2) { color: var(--violet-deep); }
+  .jg-marquee-item:nth-child(3n+3) { color: var(--acid-deep); }
 
-  .jg-tool {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 1.15rem;
-    letter-spacing: 0.02em;
-    color: var(--ink-faint);
-    text-transform: uppercase;
-    transition: color 0.3s ease;
-    cursor: default;
-  }
-
-  .jg-tool.is-active {
-    color: var(--ink);
-  }
+  .jg-marquee-dot { font-size: 0.85rem; color: var(--ink-faint); }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 860px) {
+    .jg-hero-grid { grid-template-columns: 1fr; padding-top: 3rem; }
+    .jg-hero-left { text-align: center; align-items: center; }
+    .jg-headline { justify-content: center; }
+    .jg-subline { margin-left: auto; margin-right: auto; }
+    .jg-cta-row { justify-content: center; }
     .jg-doodle-top { display: none; }
-    .jg-avatar-wrap { width: 100px; height: 100px; }
-    .jg-tools { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .jg-tools-list { gap: 1.4rem; }
+    .jg-photo-stage { max-width: 240px; margin-top: 1rem; }
+    .jg-watermark { top: 3%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -421,11 +594,12 @@ const AboutMe = () => {
   ];
 
   const tools = ['React', 'Python', 'React Native', 'TensorFlow', 'Solidity', 'Figma'];
+  const tickerItems = [...tools, ...tools];
 
   useEffect(() => {
     const t = setInterval(() => {
       setActiveSkillIndex((p) => (p + 1) % skills.length);
-    }, 2600);
+    }, 2400);
     return () => clearInterval(t);
   }, [skills.length]);
 
@@ -438,63 +612,87 @@ const AboutMe = () => {
         </div>
         <div className="jg-bg-blob a" />
         <div className="jg-bg-blob b" />
+        <div className="jg-grain" />
+        <div className="jg-watermark" aria-hidden="true">JAI GANESH</div>
 
-        <div className="jg-hero">
-          <svg className="jg-doodle jg-doodle-top" viewBox="0 0 70 40" fill="none">
-            <path d="M2 30C10 6 26 2 34 14C40 24 52 6 66 8" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+        <div className="jg-hero-grid">
+          <div className="jg-hero-left">
+            <svg className="jg-doodle jg-doodle-top" viewBox="0 0 70 40" fill="none">
+              <path d="M2 30C10 6 26 2 34 14C40 24 52 6 66 8" strokeWidth="2" strokeLinecap="round" />
+            </svg>
 
-          <div className="jg-eyebrow">
-            <span className="live-dot" />
-            build v2.6 — status: actively shipping
-          </div>
+            <div className="jg-eyebrow">
+              <span className="live-dot" />
+              build v2.6 — status: actively shipping
+            </div>
 
-          <div className="jg-avatar-wrap">
-            <div className="jg-avatar-glow" />
-            <div className="jg-avatar">
-              <img src={profileImg1} alt="Jai Ganesh H" />
+            <h1 className="jg-headline">
+              <span>Turning midnight ideas into things that</span>
+              <span className="jg-highlight">actually ship</span>
+              <span>— across</span>
+              <span className="jg-word is-acid">web</span>
+              <span>,</span>
+              <span className="jg-word is-violet">mobile</span>
+              <span>&amp;</span>
+              <span className="jg-word is-coral">machine learning</span>
+              <span>.</span>
+            </h1>
+
+            <div className="jg-role">
+              <span className="prompt">currently.exploring →</span>
+              <span className="jg-role-text">
+                <span key={activeSkillIndex}>{skills[activeSkillIndex]}</span>
+              </span>
+              <span className="jg-cursor" />
+            </div>
+
+            <p className="jg-subline">
+              I'm <strong>Jai Ganesh H</strong>, a CSE student who treats every bug like a plot
+              twist and every deploy like opening night. Right now I'm deep in mobile and AI
+              development, still working out how to make the good ideas outrun the deadlines.
+            </p>
+
+            <div className="jg-cta-row">
+              <a className="jg-cta-primary" href={resumePdf} download="Resume.pdf">
+                Grab My Resume
+                <span className="arrow-circle">↓</span>
+              </a>
+              <a className="jg-cta-ghost" href="#work">
+                See What I've Built
+              </a>
             </div>
           </div>
 
-          <h1 className="jg-headline">
-            <span>Turning midnight ideas into things that</span>
-            <span className="jg-highlight">actually ship</span>
-            <span>— across web, mobile &amp; machine learning.</span>
-          </h1>
+          <div className="jg-hero-right">
+            <div className="jg-photo-stage">
+              <div className="jg-stamp">EST. 2022 · CSE</div>
+              <div className="jg-sticker jg-sticker-1">✦ open to work</div>
 
-          <p className="jg-subline">
-            I'm <strong>Jai Ganesh H</strong>, a CSE student who treats every bug like a plot
-            twist and every deploy like opening night. Right now I'm deep in moble and AI development
-            , still working out how to make the good ideas outrun the deadlines.
-          </p>
+              <div className="jg-photo-card">
+                <div className="jg-photo-frame">
+                  <img src={profileImg1} alt="Jai Ganesh H" />
+                </div>
+                <div className="jg-photo-caption">Jai Ganesh H</div>
+              </div>
 
-          <div className="jg-cta-row">
-            <svg className="jg-cta-doodle" viewBox="0 0 60 40" fill="none">
-              <path d="M2 8C14 2 18 18 8 22C0 25 6 34 20 32C34 30 40 12 56 10" stroke="var(--ink)" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <a className="jg-cta-primary" href={resumePdf} download="Resume.pdf">
-              Grab My Resume
-              <span className="arrow-circle">↓</span>
-            </a>
-            <a className="jg-cta-ghost" href="#work">
-              See What I've Built
-            </a>
-          </div>
-
-          <div className="jg-scroll-cue">
-            <span>keep scrolling</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
+              <div className="jg-sticker jg-sticker-2">📍 Chennai, IN</div>
+            </div>
           </div>
         </div>
 
-        <div className="jg-tools">
-          <span className="jg-tools-label">Currently compiling with</span>
-          <div className="jg-tools-list">
-            {tools.map((tool, i) => (
-              <span key={tool} className={`jg-tool${i === activeSkillIndex % tools.length ? ' is-active' : ''}`}>
+        <div className="jg-scroll-cue">
+          <span>keep scrolling</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
+
+        <div className="jg-marquee">
+          <div className="jg-marquee-track">
+            {tickerItems.map((tool, i) => (
+              <span className="jg-marquee-item" key={`${tool}-${i}`}>
                 {tool}
+                <span className="jg-marquee-dot">✺</span>
               </span>
             ))}
           </div>
