@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap');
 
   :root {
     --acid: #CCFF00;
@@ -51,7 +51,18 @@ const styles = `
     right: -10%;
     width: 600px;
     height: 600px;
-    background: radial-gradient(ellipse, rgba(204,255,0,0.04) 0%, transparent 65%);
+    background: radial-gradient(ellipse, rgba(204,255,0,0.05) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .sk-glow-b {
+    position: absolute;
+    bottom: -25%;
+    left: -8%;
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(ellipse, rgba(204,255,0,0.03) 0%, transparent 65%);
     pointer-events: none;
     z-index: 0;
   }
@@ -184,7 +195,7 @@ const styles = `
   /* ── Card ─────────────────────────────── */
   .sk-card {
     background: var(--black);
-    padding: 2rem 1.75rem 1.75rem;
+    padding: 2rem 1.75rem 1.5rem;
     position: relative;
     overflow: hidden;
     opacity: 0;
@@ -233,13 +244,19 @@ const styles = `
   }
   .sk-card:hover::after { height: 60%; }
 
-  /* Number tag */
+  /* Card top row: index tag + average mastery badge */
+  .sk-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
   .sk-card-idx {
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.55rem;
     color: rgba(204,255,0,0.28);
     letter-spacing: 0.18em;
-    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -250,6 +267,18 @@ const styles = `
     width: 16px;
     height: 1px;
     background: rgba(204,255,0,0.2);
+  }
+
+  .sk-card-avg {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: var(--acid);
+    background: rgba(204,255,0,0.07);
+    border: 1px solid rgba(204,255,0,0.25);
+    padding: 0.22rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
   }
 
   /* Card title */
@@ -279,32 +308,83 @@ const styles = `
   }
   .sk-card:hover .sk-card-desc { color: var(--muted-hi); }
 
-  /* Icon image */
-  .sk-icons-wrap {
+  /* ── Skill list: name + animated level bar instead of a flat
+     icon strip, so each skill communicates proficiency ── */
+  .sk-skill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .sk-skill-row {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr) 64px 30px;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.2rem 0.3rem;
+    border-radius: 3px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .sk-skill-row:hover {
+    background: rgba(204,255,0,0.05);
+    transform: translateX(2px);
+  }
+
+  .sk-skill-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    filter: brightness(0.85) saturate(0.9);
+    transition: filter 0.2s ease;
+  }
+  .sk-skill-row:hover .sk-skill-icon {
+    filter: brightness(1.05) saturate(1.05);
+  }
+
+  .sk-skill-name {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
+    color: var(--white-dim, var(--muted-hi));
+    color: #C7C7C7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+  }
+  .sk-skill-row:hover .sk-skill-name { color: var(--white); }
+
+  .sk-level-track {
     position: relative;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--white-dim);
     overflow: hidden;
   }
-  .sk-icons-wrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, transparent 70%, rgba(204,255,0,0.04));
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .sk-card:hover .sk-icons-wrap::after { opacity: 1; }
 
-  .sk-icons {
-    width: 100%;
-    display: block;
-    filter: brightness(0.82) saturate(0.9);
-    transition: filter 0.3s ease, transform 0.4s ease;
+  .sk-level-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(204,255,0,0.55), var(--acid));
+    border-radius: 2px;
+    transition: filter 0.2s ease;
   }
-  .sk-card:hover .sk-icons {
-    filter: brightness(1) saturate(1.05);
-    transform: scale(1.01);
+  .sk-skill-row:hover .sk-level-fill {
+    filter: brightness(1.3);
   }
+
+  .sk-skill-pct {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-align: right;
+    transition: color 0.2s ease;
+  }
+  .sk-skill-row:hover .sk-skill-pct { color: var(--acid); }
 
   /* Bottom-right corner bracket */
   .sk-card-corner {
@@ -401,6 +481,7 @@ const styles = `
     .sk-card:nth-child(4),
     .sk-card:nth-child(5) { grid-column: span 1; }
     .sk-title { font-size: clamp(2.6rem, 10vw, 3.5rem); }
+    .sk-skill-row { grid-template-columns: 20px minmax(0,1fr) 50px 26px; }
   }
 `;
 
@@ -408,39 +489,74 @@ const skillCategories = [
   {
     idx: '01',
     title: 'Languages',
-    icons: 'python,js,ts,kotlin,dart,cpp,solidity',
-    alt: 'Programming Languages',
     description: 'Building blocks of digital innovation',
+    skills: [
+      { name: 'Python', icon: 'python', level: 90 },
+      { name: 'JavaScript', icon: 'js', level: 85 },
+      { name: 'TypeScript', icon: 'ts', level: 78 },
+      { name: 'Kotlin', icon: 'kotlin', level: 70 },
+      { name: 'Dart', icon: 'dart', level: 74 },
+      { name: 'C++', icon: 'cpp', level: 65 },
+      { name: 'Solidity', icon: 'solidity', level: 58 },
+    ],
   },
   {
     idx: '02',
     title: 'Frontend & Backend',
-    icons: 'react,django,flutter,nodejs,express,androidstudio,firebase',
-    alt: 'Frontend & Backend Frameworks',
     description: 'Crafting experiences, powering functionality',
+    skills: [
+      { name: 'React', icon: 'react', level: 90 },
+      { name: 'Node.js', icon: 'nodejs', level: 84 },
+      { name: 'Express', icon: 'express', level: 80 },
+      { name: 'Django', icon: 'django', level: 78 },
+      { name: 'Flutter', icon: 'flutter', level: 75 },
+      { name: 'Android Studio', icon: 'androidstudio', level: 70 },
+      { name: 'Firebase', icon: 'firebase', level: 76 },
+    ],
   },
   {
     idx: '03',
     title: 'Database & DevOps',
-    icons: 'mongodb,sqlite,postgres,docker,jenkins,github,git',
-    alt: 'Database & DevOps Tools',
     description: 'Storing data, streamlining deployment',
+    skills: [
+      { name: 'Git', icon: 'git', level: 92 },
+      { name: 'GitHub', icon: 'github', level: 90 },
+      { name: 'MongoDB', icon: 'mongodb', level: 82 },
+      { name: 'PostgreSQL', icon: 'postgres', level: 76 },
+      { name: 'SQLite', icon: 'sqlite', level: 80 },
+      { name: 'Docker', icon: 'docker', level: 68 },
+      { name: 'Jenkins', icon: 'jenkins', level: 55 },
+    ],
   },
   {
     idx: '04',
     title: 'AI / ML / DS',
-    icons: 'tensorflow,pytorch,numpy,pandas,scikitlearn,opencv',
-    alt: 'AI/ML/Data Science Tools',
     description: 'Intelligence through data and algorithms',
+    skills: [
+      { name: 'NumPy', icon: 'numpy', level: 86 },
+      { name: 'Pandas', icon: 'pandas', level: 85 },
+      { name: 'Scikit-learn', icon: 'scikitlearn', level: 76 },
+      { name: 'TensorFlow', icon: 'tensorflow', level: 74 },
+      { name: 'PyTorch', icon: 'pytorch', level: 68 },
+      { name: 'OpenCV', icon: 'opencv', level: 70 },
+    ],
   },
   {
     idx: '05',
     title: 'Tools & Platforms',
-    icons: 'vscode,figma,postman,ubuntu,linux',
-    alt: 'Tools & Platforms',
     description: 'Essential gear for modern development',
+    skills: [
+      { name: 'VS Code', icon: 'vscode', level: 95 },
+      { name: 'Linux', icon: 'linux', level: 82 },
+      { name: 'Ubuntu', icon: 'ubuntu', level: 80 },
+      { name: 'Postman', icon: 'postman', level: 78 },
+      { name: 'Figma', icon: 'figma', level: 72 },
+    ],
   },
 ];
+
+const average = (skills) =>
+  Math.round(skills.reduce((sum, s) => sum + s.level, 0) / skills.length);
 
 const Skills = () => {
   const footRef = useRef(null);
@@ -489,6 +605,7 @@ const Skills = () => {
       <section id="skills" className="sk-root">
         {/* Atmospheric glow */}
         <div className="sk-glow" />
+        <div className="sk-glow-b" />
 
         {/* Watermark */}
         <div className="sk-bg-wm" aria-hidden="true">SKILLS</div>
@@ -509,7 +626,7 @@ const Skills = () => {
             </h2>
             <div className="sk-subtitle-row">
               <div className="sk-divider" />
-              <span className="sk-tagline">languages · frameworks · tools</span>
+              <span className="sk-tagline">languages · frameworks · tools · proficiency</span>
             </div>
           </header>
 
@@ -517,18 +634,34 @@ const Skills = () => {
           <div className="sk-grid" role="list">
             {skillCategories.map((cat) => (
               <article key={cat.idx} className="sk-card" role="listitem">
-                <div className="sk-card-idx">// {cat.idx}</div>
+                <div className="sk-card-top">
+                  <div className="sk-card-idx">// {cat.idx}</div>
+                  <div className="sk-card-avg">{average(cat.skills)}% AVG</div>
+                </div>
                 <h3 className="sk-card-title">{cat.title}</h3>
                 <p className="sk-card-desc">{cat.description}</p>
-                <div className="sk-icons-wrap">
-                  <img
-                    src={`https://skillicons.dev/icons?i=${cat.icons}&perline=7&theme=dark`}
-                    alt={cat.alt}
-                    className="sk-icons"
-                    loading="lazy"
-                    width="100%"
-                  />
-                </div>
+
+                <ul className="sk-skill-list">
+                  {cat.skills.map((skill) => (
+                    <li className="sk-skill-row" key={skill.name}>
+                      <img
+                        className="sk-skill-icon"
+                        src={`https://skillicons.dev/icons?i=${skill.icon}&theme=dark`}
+                        alt=""
+                        loading="lazy"
+                      />
+                      <span className="sk-skill-name">{skill.name}</span>
+                      <div className="sk-level-track">
+                        <div
+                          className="sk-level-fill"
+                          style={{ width: `${skill.level}%` }}
+                        />
+                      </div>
+                      <span className="sk-skill-pct">{skill.level}%</span>
+                    </li>
+                  ))}
+                </ul>
+
                 <div className="sk-card-corner" aria-hidden="true" />
                 <div className="sk-dot" aria-hidden="true" />
               </article>
