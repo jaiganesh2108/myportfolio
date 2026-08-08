@@ -432,7 +432,7 @@ const Education = () => {
 
         <div className="ed-container">
           <div className="ed-head">
-            <div className="ed-label">// 06 — Learning Journey</div>
+            <div className="ed-label">// 06000 — Learning Journey</div>
             <h2 className="ed-title">EDUCA<span>TION</span></h2>
             <div className="ed-divider" />
           </div>
